@@ -6,10 +6,10 @@ void setup_size()
      but = digitalRead(SW);
      if (but == 1){flag = 0;}
      delay(10);} 
-  pixels.clear();
+  FastLED.clear();
   for (int i = 0; i<(digit_2 + 1); i ++){   
-  pixels.setPixelColor(i, pixels.Color(0,color,0)); }
-  pixels.show();
+  leds[i] = CHSV(0,color,0); }
+  FastLED.show();
   flag = 1;
   boolean an = 1;
   while(flag)
@@ -19,22 +19,22 @@ void setup_size()
    if(a==1){an=0;}}
    an = 1;
    bb = digitalRead(B);
-   if(bb == 0){digitalWrite(zummer,on_zum);
+   if(bb == 0){digitalWrite(buzzer,spk_on);
    if(digit_2 < 7){
    digit_2 = digit_2 + 1;
    set_size = set_size *2;}}
-   else {digitalWrite(zummer,on_zum);
+   else {digitalWrite(buzzer,spk_on);
    if(digit_2 > 0){
    set_size = set_size/2;
    digit_2 = digit_2 - 1;}}
-   pixels.clear();
+   FastLED.clear();
    for (int i = 0; i<(digit_2 + 1); i ++){
-   pixels.setPixelColor(i, pixels.Color(0,color,0));}
-   pixels.show();
+   leds[i] = CHSV(0,color,0);}
+   FastLED.show();
    delay(10);
-   digitalWrite(zummer,0);}
+   digitalWrite(buzzer,0);}
    delay(10);
    but = digitalRead(SW);
    if(but == 0){flag = 0;
-   pixels.clear();
-   pixels.show();}}}
+   FastLED.clear();
+   FastLED.show();}}}

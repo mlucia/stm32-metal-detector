@@ -16,10 +16,10 @@ void scan(){
   g = 0;
   r = 0;}
   for(int i=0;i<4;i++){
-  pixels.clear();
-  pixels.setPixelColor(digit1, pixels.Color(r,g,b));
-  pixels.setPixelColor(digit, pixels.Color(r,g,b));
-  pixels.show();
+  FastLED.clear();
+  leds[digit1] = CHSV(r,g,b);
+  leds[digit] = CHSV(r,g,b);
+  FastLED.show();
   delay(100);
   digit1 = digit1-1;
   digit = digit +1;}
@@ -27,11 +27,11 @@ void scan(){
   for(int i=0;i<4;i++){
   digit1 = digit1 + 1;
   digit = digit - 1;
-  pixels.clear();
-  pixels.setPixelColor(digit1, pixels.Color(r,g,b));
-  pixels.setPixelColor(digit, pixels.Color(r,g,b));
-  pixels.show();
+  FastLED.clear();
+  leds[digit1] = CHSV(r,g,b);
+  leds[digit] = CHSV(r,g,b);
+  FastLED.show();
   delay(100);
 }}
-pixels.clear();
-pixels.show();}
+FastLED.clear();
+FastLED.show();}

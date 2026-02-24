@@ -6,9 +6,11 @@
      but = digitalRead(SW);
      if (but == 1){flag = 0;}
      delay(10);}
-   pixels.clear();
-   for (byte i = 0; i < 8; i++){pixels.setPixelColor(i, pixels.Color(color,0,0));}
-   pixels.show();
+   FastLED.clear();
+
+   //for (byte i = 0; i < NUM_LEDS; i++){ leds[i] = CHSV(color, 0, 0);}
+  for (byte i = 0; i < NUM_LEDS; i++){ leds[i] = CHSV(color, 0, 0);}
+   FastLED.show();
   flag = 1;
   delay(500);
   while(flag){
@@ -19,20 +21,20 @@
     bb = digitalRead(B);
     if(bb == 0){
       if(color < 250){
-      digitalWrite(zummer,on_zum);
+      digitalWrite(buzzer,spk_on);
       color = color + 10;}}
     else {
       if(color > 10){
-      digitalWrite(zummer,on_zum);
+      digitalWrite(buzzer,spk_on);
       color = color - 10;}}
     an = 1;
-    pixels.clear();
-    for (byte i = 0; i < 8; i++){pixels.setPixelColor(i, pixels.Color(color,0,0));}
-    pixels.show();
+    FastLED.clear();
+    for (byte i = 0; i < NUM_LEDS; i++){ leds[i] = CHSV(color, 0, 0);}
+    FastLED.show();
     delay(10);
-    digitalWrite(zummer,0);}
+    digitalWrite(buzzer,0);}
   delay(10);
   but = digitalRead(SW);
   if (but == 0){flag = 0;}}
-   pixels.clear();
-   pixels.show();}
+   FastLED.clear();
+   FastLED.show();}
