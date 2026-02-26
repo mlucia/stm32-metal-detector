@@ -1,5 +1,6 @@
 
 #include <FastLED.h>
+#include <HardwareTimer.h>
 //#include <Arduino.h>
 
 
@@ -42,6 +43,8 @@ byte digit = 7;
 byte digit_2 = 0;
 byte set_size = 1;
 
+// Create a pointer for the timer object
+HardwareTimer *MyTim;
 
 void setup() {
 pinMode(pulse,OUTPUT);
@@ -59,6 +62,44 @@ FastLED.addLeds<WS2812, DATA_PIN, GRB>(leds, NUM_LEDS).setRgbw(RgbwDefault());
 FastLED.setBrightness(128);  // Set global brightness to 50%
 FastLED.clear();
 FastLED.show();
+
+// 1. Get the timer instance for TIM2
+  // We use the pin name to automatically find the right timer/channel
+  TIM_TypeDef *Instance = (TIM_TypeDef *)pinmap_peripheral(digitalPinToPinName(PA0), PinMap_PWM);
+  uint32_t channel = STM_PIN_CHANNEL(pinmap_function(digitalPinToPinName(PA0), PinMap_PWM));
+
+  MyTim = new HardwareTimer(Instance);
+
+  // 2. Configure the Timer
+  MyTim->pause();
+
+  // Prescaler: F103 usually runs at 72MHz. 
+  // A factor of 2 gives 36MHz (approx 27.7ns per tick)
+  MyTim->setPrescaleFactor(2);
+
+  // Set Overflow to max to prevent premature reset during metal sensing
+  MyTim->setOverflow(0xFFFF); 
+
+  // 3. Configure Input Capture
+  // Setup Channel 1 (PA0) as the primary input
+  MyTim->setMode(channel, TIMER_INPUT_CAPTURE_RISING, PA0);
+
+  // For metal detectors, we often need the "Slave Mode" reset 
+  // This resets the counter automatically on the trigger edge
+  // We access the underlying HAL handle for this specific hardware feature
+  TIM_HandleTypeDef *htim = MyTim->getHandle();
+  
+  // Replicating: Timer2.setSlaveFlags( TIMER_SMCR_TS_TI1FP1 | TIMER_SMCR_SMS_RESET );
+  htim->Instance->SMCR |= (TIM_TS_TI1FP1 | TIM_SLAVEMODE_RESET);
+
+  // 4. Finalize and Start
+  MyTim->refresh();
+  
+  // Clear any existing capture flags (Replacing getCompare)
+  MyTim->getCaptureCompare(channel); 
+  
+  MyTim->resume();
+
 // Timer2.pause();//stop the timer before setting up
 // Timer2.setPrescaleFactor(2);//we set the timer prescaler to 1/36 microseconds ~ 27 nanoseconds
 // Timer2.setInputCaptureMode(TIMER_CH1, TIMER_IC_INPUT_DEFAULT);//channel1 timer2 (PA0)
@@ -69,9 +110,9 @@ FastLED.show();
 // Timer2.getCompare(TIMER_CH1); // Clear the channel 1 capture flag.
 // Timer2.getCompare(TIMER_CH2); // Clear the channel 2 capture flag.
 // Timer2.resume(); // start the timer
-//   scan();
-//  del_1(); 
-//   scan();
+  scan();
+  del_1(); 
+  scan();
 }
 
 void loop() { 

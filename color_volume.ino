@@ -1,4 +1,4 @@
-//настройка яркости.
+//Brightness setting
   void col_vol(){ 
    boolean flag = 1;
    boolean an = 1;
@@ -8,7 +8,7 @@
      delay(10);}
    FastLED.clear();
 
-   //for (byte i = 0; i < NUM_LEDS; i++){ leds[i] = CHSV(color, 0, 0);}
+
   for (byte i = 0; i < NUM_LEDS; i++){ leds[i] = CHSV(color, 0, 0);}
    FastLED.show();
   flag = 1;

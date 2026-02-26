@@ -1,6 +1,6 @@
-//световая и звуковая индикация.
+//Compare the values and display the result.
 void showDigit(){
-   // сравниваем значения и выводим на индикацию.
+   // Compare the values and display the result.
     if (count_sensor == 0){
     if (data1 > calibr + 2 * set_size){
     FastLED.clear();

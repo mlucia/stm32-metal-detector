@@ -1,4 +1,4 @@
-//настройка на крупные или мелкие мишени (растягиваем шкалу индикации).
+//Target size adjustment: Large or Small (expanding the display scale).
 void setup_size()
 {
    boolean flag = 1; 

@@ -1,4 +1,4 @@
-//включение и отключение зуммера.
+//Enable/Disable buzzer
     void zum_on_off(){ 
    boolean flag = 1;
    boolean an = 1;

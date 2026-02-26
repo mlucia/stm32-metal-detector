@@ -1,4 +1,4 @@
-//индикация начало работы.
+//Start-of-operation indication
 void scan(){
  byte digit1 = 3;
  byte digit = 4;

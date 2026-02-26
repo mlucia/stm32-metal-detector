@@ -1,4 +1,4 @@
-//настройка глубины обнаружения (длительность подачи импульса на катушку от 120 до 50 мкс).
+//Detection depth adjustment (coil pulse duration from 120 to 50 μs).
 void setup_pulse()
 {
    boolean flag = 1; 
